@@ -13,7 +13,8 @@ foreach($acc in $hashes) {
 	  foreach($h in $knownBad) {
 		if($h -eq $hash) {
 			write-host -ForeGroundColor "red" "WEAK PASSWORD. RESET!"
-			#AUTOMATIC PW RESET CODE
+			restPassword($acc.SamAccountName)
+			#Send email? 
 		}
 	  } 
   }
@@ -22,5 +23,6 @@ foreach($acc in $hashes) {
 
 
 function resetPassword($username) {
+	#This probably doesn't work. Needs testing
 	Set-User $username -ChangePasswordAtLogon $true 
 }
