@@ -24,5 +24,8 @@ foreach($acc in $hashes) {
 
 function resetPassword($username) {
 	#This probably doesn't work. Needs testing
-	Set-User $username -ChangePasswordAtLogon $true 
+	#Set-User $username -ChangePasswordAtLogon $true
+	$tempPassword = "walkingsoftwareblueelephant"
+	Set-ADAccountPassword -Identity $username -Reset -NewPassword $tempPassword
+	Set-ADUser -Identity $username -ChangePasswordAtLogon $true 
 }
