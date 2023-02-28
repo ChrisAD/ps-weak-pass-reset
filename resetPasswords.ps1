@@ -1,17 +1,17 @@
 <#
 .SYNOPSIS
-    It's here
+    Find weak passwords
 .DESCRIPTION
     Hammers on AD to shake loose crappy passwords
     Requires https://github.com/MichaelGrafnetter/DSInternals to run - Install: Install-Module DSInternals -Force
-    Or use chocolatey to install - just google it
+    Or use chocolatey to install 
 .EXAMPLE
     C:\PS> ./resetPassword.ps1 -h [hashfile]
     C:\PS> ./resetPassword.ps1 -w [wordlist]
     C:\PS> ./resetPassword.ps1 -bpw - this will attempt to download berzerk0's probable passwords from github and use as wordlist
     <Description of example>
 .NOTES
-    Author: The cool guys
+    Author: See contributors
     Date:   COVID-19 period, 2020
 #>
 param(
@@ -83,6 +83,8 @@ function calcNTHash($password) {
 }
 function resetPassword($username) {
     # temppassword should really not be static, but I want to go to bed now
+    # Allow for optional reset to a new password. Might be a problem blocking people from accessing their account and reading their email 
+    # Probably want to remove the part below before it uses randomized passwords. 
 	$tempPassword = ConvertTo-SecureString -String "walkingsoftwareblueelephant1!" -AsPlainText -Force
 	Set-ADAccountPassword -Identity $username -Reset -NewPassword $tempPassword
     $interestingBits = Get-ADUser -Identity $username -properties PasswordNeverExpires,Enabled
